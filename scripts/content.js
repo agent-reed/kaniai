@@ -1,15 +1,25 @@
-documentObserver = new MutationObserver(() => {
-  console.log("Document Mutation");
-  setDocumentImage();
-})
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
 
-lessonObserver = new MutationObserver(() => {
-  console.log("Lesson Mutation");
+const documentObserver = new MutationObserver(debounce(() => {
+  setDocumentImage();
+}, 300));
+
+const lessonObserver = new MutationObserver(debounce(() => {
   setLessonImage();
-})
+}, 300));
 
 navigation.addEventListener("navigate", event => {
   const url = new URL(event.destination.url);
+  detectKanjiForVisual(url);
+});
+
+const detectKanjiForVisual = (url) => {
   if (url.pathname.includes("/kanji/")) {
     lessonObserver.disconnect();
     documentObserver.observe(document, {subtree: true, childList: true});
@@ -20,13 +30,11 @@ navigation.addEventListener("navigate", event => {
     documentObserver.disconnect();
     lessonObserver.disconnect();
   }
-});
-
-function setLessonImage() {
+}
+const setLessonImage = () => {
   if (document.querySelector('#visual-section')) {
     return;
   } else {
-    console.log("Setting Lesson Picture");
     let kanjiElement = document.querySelector('.character-header__meaning');
     let sideElement = document.querySelector('#reading > div > div.subject-slide__aside > section');
 
@@ -55,14 +63,12 @@ function setLessonImage() {
   }
 }
 
-function setDocumentImage() {
+const setDocumentImage = () => {
   if (document.querySelector('#visual-section')) {
     return;
   } else {
     let kanjiElement = document.querySelector('.page-header__title-text');
     let mnemonicSection = document.querySelector('#section-reading > section:nth-child(2)');
-    console.log(kanjiElement);
-    console.log(mnemonicSection);
   
     if (kanjiElement && mnemonicSection) {
       const visualSection = document.createElement('section');
@@ -90,13 +96,13 @@ function setDocumentImage() {
   }
 }
 
-function showImageModal(src, isLesson) {
+const showImageModal = (src, isLesson) => {
   const modal = document.createElement('div')
   isLesson ? modal.classList.add('lesson-modal') : modal.classList.add('modal');
 
   const close = document.createElement('span')
   close.classList.add('close');
-  close.textContent = "X"
+  close.textContent = "x"
 
   const modalImage = document.createElement('img')
   modalImage.classList.add('modal-content');
@@ -120,7 +126,7 @@ function showImageModal(src, isLesson) {
   }
 }
 
-function imagePreload(imageSrc, good, bad) {
+const imagePreload = (imageSrc, good, bad) => {
   var img = new Image();
   img.onload = good; 
   img.onerror = bad;
@@ -128,3 +134,5 @@ function imagePreload(imageSrc, good, bad) {
 
   return img;
 }
+
+detectKanjiForVisual(window.location);
