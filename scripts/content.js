@@ -6,6 +6,10 @@ const debounce = (func, wait) => {
   };
 };
 
+const imageSource = (kanji) => {
+  return 'https://d39wqa1ne2nsv1.cloudfront.net/' + kanji + '.jpg';
+}
+
 const documentObserver = new MutationObserver(debounce(() => {
   setDocumentImage();
 }, 300));
@@ -39,7 +43,6 @@ const setLessonImage = () => {
     let sideElement = document.querySelector('#reading > div > div.subject-slide__aside > section');
 
     if (kanjiElement && sideElement) {
-      let source = 'https://d39wqa1ne2nsv1.cloudfront.net/' + kanjiElement.textContent + '.png';
       imagePreload(source, () => {
         const visualSection = document.createElement('section');
         visualSection.classList.add('subject-section');
@@ -51,7 +54,7 @@ const setLessonImage = () => {
         const button = document.createElement("button");
         button.classList.add('button-31');
         button.textContent = "View Reading Image";
-        button.onclick = () => showImageModal(source, true);
+        button.onclick = () => showImageModal(imageSource(kanjiElement.textContent), true);
   
         visualSection.insertAdjacentElement('afterbegin', header)
         visualSection.insertAdjacentElement('beforeend', button)
@@ -79,13 +82,12 @@ const setDocumentImage = () => {
       header.textContent = "Visualization"
   
       const image = document.createElement('img');
-      let source = 'https://d39wqa1ne2nsv1.cloudfront.net/' + kanjiElement.textContent + '.png';
       image.width = '300';
       image.height = '300';
       image.classList.add('kani-image');
       image.src = source;
       image.onerror = function(){ visualSection.style.display = 'none';}
-      image.onclick = () => showImageModal(source, false);
+      image.onclick = () => showImageModal(imageSource(kanjiElement.textContent), false);
   
       visualSection.insertAdjacentElement('afterbegin', header)
       visualSection.insertAdjacentElement('beforeend', image)
