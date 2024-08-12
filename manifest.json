@@ -12,10 +12,12 @@
   },
   "content_scripts": [
     {
+      "css": ["styles.css"],
       "js": ["scripts/content.js"],
       "matches": [
         "https://www.wanikani.com/*"
-    ]
+    ],
+    "run_at": "document_end"
     }
   ]
 }
