@@ -10,6 +10,15 @@ const imageSource = (kanji) => {
   return 'https://d39wqa1ne2nsv1.cloudfront.net/' + kanji + '.jpg';
 }
 
+const imagePreload = (imageSrc, good, bad) => {
+  var img = new Image();
+  img.onload = good; 
+  img.onerror = bad;
+  img.src = imageSrc;
+
+  return img;
+}
+
 const documentObserver = new MutationObserver(debounce(() => {
   setDocumentImage();
 }, 300));
@@ -35,6 +44,7 @@ const detectKanjiForVisual = (url) => {
     lessonObserver.disconnect();
   }
 }
+
 const setLessonImage = () => {
   if (document.querySelector('#visual-section')) {
     return;
@@ -43,7 +53,7 @@ const setLessonImage = () => {
     let sideElement = document.querySelector('#reading > div > div.subject-slide__aside > section');
 
     if (kanjiElement && sideElement) {
-      imagePreload(source, () => {
+      imagePreload(imageSource(kanjiElement.textContent), () => {
         const visualSection = document.createElement('section');
         visualSection.classList.add('subject-section');
   
@@ -52,7 +62,7 @@ const setLessonImage = () => {
         header.textContent = "Visualization"
   
         const button = document.createElement("button");
-        button.classList.add('button-31');
+        button.classList.add('kaniai-button');
         button.textContent = "View Reading Image";
         button.onclick = () => showImageModal(imageSource(kanjiElement.textContent), true);
   
@@ -84,8 +94,8 @@ const setDocumentImage = () => {
       const image = document.createElement('img');
       image.width = '300';
       image.height = '300';
-      image.classList.add('kani-image');
-      image.src = source;
+      image.classList.add('kaniai-image');
+      image.src = imageSource(kanjiElement.textContent);
       image.onerror = function(){ visualSection.style.display = 'none';}
       image.onclick = () => showImageModal(imageSource(kanjiElement.textContent), false);
   
@@ -100,14 +110,14 @@ const setDocumentImage = () => {
 
 const showImageModal = (src, isLesson) => {
   const modal = document.createElement('div')
-  isLesson ? modal.classList.add('lesson-modal') : modal.classList.add('modal');
+  isLesson ? modal.classList.add('kaniai-lesson-modal') : modal.classList.add('kaniai-dictionary-modal');
 
   const close = document.createElement('span')
-  close.classList.add('close');
+  close.classList.add('kaniai-close');
   close.textContent = "x"
 
   const modalImage = document.createElement('img')
-  modalImage.classList.add('modal-content');
+  modalImage.classList.add('kaniai-modal-content');
 
   modal.insertAdjacentElement('afterbegin', close);
   modal.insertAdjacentElement('beforeend', modalImage);
@@ -117,24 +127,15 @@ const showImageModal = (src, isLesson) => {
   modal.style.display = "block";
   modalImage.src = src;
   
-  close.onclick = function() {
+  close.onclick = () => {
     modal.remove();
   }
   
-  window.onclick = function(e) {
+  window.onclick = (e) => {
     if(e.target == modal) {
       modal.remove();
     }
   }
-}
-
-const imagePreload = (imageSrc, good, bad) => {
-  var img = new Image();
-  img.onload = good; 
-  img.onerror = bad;
-  img.src = imageSrc;
-
-  return img;
 }
 
 detectKanjiForVisual(window.location);

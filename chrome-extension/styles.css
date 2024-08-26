@@ -1,12 +1,11 @@
-.button-31 {
-  background-color: #252a3a;
+.kaniai-button {
+  background-color: #fafafa;
   border-radius: 4px;
-  border-style: none;
+  border: 1px solid #333333;
   box-sizing: border-box;
-  color: #fff;
+  color: #333333;
   cursor: pointer;
   display: inline-block;
-  font-family: "Farfetch Basis","Helvetica Neue",Arial,sans-serif;
   font-size: 13px;
   font-weight: 700;
   line-height: 1.5;
@@ -25,20 +24,20 @@
   touch-action: manipulation;
 }
 
-.button-31:hover,
-.button-31:focus {
+.kaniai-button:hover,
+.kaniai-button:focus {
   opacity: .75;
 }
 
-.kani-image {
+.kaniai-image {
 	cursor: zoom-in;
 }
 
-.kani-image:hover {
+.kaniai-image:hover {
 	opacity: 0.7s;
 }
 
-.modal {
+.kaniai-dictionary-modal {
 	display: none;
 	position: fixed;
 	z-index: 1;
@@ -52,7 +51,7 @@
 	background-color: rgba(0,0,0,0.8);
 }
 
-.lesson-modal {
+.kaniai-lesson-modal {
 	display: none;
 	position: fixed;
 	z-index: 1;
@@ -66,15 +65,15 @@
 	background-color: rgba(0,0,0,0.8);
 }
 
-.modal-content {
+.kaniai-modal-content {
 	margin: auto;
 	display: block;
-  margin-top: 5%;
+	margin-top: 5%;
 	max-width: 70%;
-  max-height: 70%
+	max-height: 70%;
 }
 
-.modal-content {
+.kaniai-modal-content {
 	-webkit-animation-name: zoom;
 	-webkit-animation-duration: 0.3s;
 	animation-name: zoom;
@@ -91,7 +90,7 @@
 	to {transform:scale(1)}
 }
 
-.close {
+.kaniai-close {
 	position: absolute;
 	right: 35px;
 	color: #f1f1f1;
@@ -100,22 +99,22 @@
 	transition: 0.3s;
 }
 
-.close:hover,
-.close:focus {
+.kaniai-close:hover,
+.kaniai-close:focus {
 	color: #bbb;
 	text-decoration: none;
 	cursor: pointer;
 }
 
 @media only screen and (max-width: 1024px) {
-	.modal-content {
-    padding-top: 10%;
+	.kaniai-modal-content {
+		padding-top: 10%;
 		width: 100%;
 	}
 }
 
 @media only screen and (max-width: 1024px) {
-	.modal {
-    padding-top: 30px;
+	.kaniai-dictionary-modal {
+    	padding-top: 30px;
 	}
 }
