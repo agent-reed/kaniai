@@ -59,4 +59,4 @@ OPENAI_ASSISTANT_ID="Assistant ID
 python image-generation.py
 ```
 
-*Note:* The image generation script creates a directory at the root called `temp` when run. THis is where images get stored and the error log and kanji CSVs are written. On successive runs, you need to delete this folder (and if generating many images, be mindfuyl of disk space).
+*Note:* The image generation script creates a directory at the root called `temp` when run. This is where images get stored and the error log and kanji CSVs are written. On successive runs, you need to delete this folder (and if generating many images, be mindful of disk space).
